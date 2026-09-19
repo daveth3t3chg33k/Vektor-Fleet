@@ -1,0 +1,134 @@
+@import "tailwindcss";
+
+/* ---------------------------------------------------------------------------
+   VektorFleet design tokens
+   A dark operations-console palette: deep navy surfaces, a cyan "signal"
+   primary, and a strict semantic colour scale for severity.
+--------------------------------------------------------------------------- */
+@theme {
+  --color-void: #05080f;
+  --color-surface: #0a1120;
+  --color-surface-2: #101a2e;
+  --color-surface-3: #16233c;
+  --color-line: #1d2a44;
+  --color-line-2: #27364f;
+  --color-ink: #e8eefb;
+  --color-muted: #8195b6;
+  --color-faint: #5b6d8c;
+
+  --color-signal: #22d3ee;
+  --color-signal-dim: #0e7490;
+  --color-mint: #34d399;
+  --color-warn: #fbbf24;
+  --color-danger: #fb7185;
+  --color-violet: #a78bfa;
+
+  --font-sans: "Inter", ui-sans-serif, system-ui, -apple-system, "Segoe UI", Roboto,
+    "Helvetica Neue", Arial, sans-serif;
+  --font-mono: ui-monospace, "SFMono-Regular", "JetBrains Mono", Menlo, Consolas, monospace;
+}
+
+html,
+body {
+  background-color: var(--color-void);
+  color: var(--color-ink);
+  -webkit-font-smoothing: antialiased;
+}
+
+body {
+  background-image:
+    radial-gradient(1100px 620px at 12% -10%, rgba(34, 211, 238, 0.09), transparent 60%),
+    radial-gradient(900px 520px at 92% 4%, rgba(167, 139, 250, 0.07), transparent 62%);
+  background-attachment: fixed;
+}
+
+::selection {
+  background: rgba(34, 211, 238, 0.32);
+}
+
+/* Slim, unobtrusive scrollbars for data panels. */
+* {
+  scrollbar-width: thin;
+  scrollbar-color: var(--color-line-2) transparent;
+}
+*::-webkit-scrollbar {
+  width: 9px;
+  height: 9px;
+}
+*::-webkit-scrollbar-thumb {
+  background: var(--color-line-2);
+  border-radius: 999px;
+}
+*::-webkit-scrollbar-track {
+  background: transparent;
+}
+
+/* --- Reusable surfaces ------------------------------------------------- */
+
+.vf-panel {
+  background: linear-gradient(180deg, rgba(16, 26, 46, 0.9), rgba(10, 17, 32, 0.92));
+  border: 1px solid var(--color-line);
+  border-radius: 16px;
+  backdrop-filter: blur(6px);
+}
+
+.vf-panel-hover {
+  transition: border-color 180ms ease, transform 180ms ease, box-shadow 180ms ease;
+}
+.vf-panel-hover:hover {
+  border-color: var(--color-line-2);
+  box-shadow: 0 12px 40px -18px rgba(34, 211, 238, 0.35);
+}
+
+.vf-grid-lines {
+  background-image:
+    linear-gradient(to right, rgba(29, 42, 68, 0.55) 1px, transparent 1px),
+    linear-gradient(to bottom, rgba(29, 42, 68, 0.55) 1px, transparent 1px);
+  background-size: 34px 34px;
+}
+
+.vf-num {
+  font-variant-numeric: tabular-nums;
+  font-feature-settings: "tnum";
+}
+
+/* --- Motion ------------------------------------------------------------ */
+
+@keyframes vf-pulse-ring {
+  0% { transform: scale(0.7); opacity: 0.65; }
+  70% { transform: scale(2.4); opacity: 0; }
+  100% { transform: scale(2.4); opacity: 0; }
+}
+.vf-ping {
+  animation: vf-pulse-ring 2.6s cubic-bezier(0.2, 0.6, 0.4, 1) infinite;
+  transform-origin: center;
+}
+
+@keyframes vf-sweep {
+  0% { transform: translateX(-100%); }
+  100% { transform: translateX(320%); }
+}
+.vf-sweep::after {
+  content: "";
+  position: absolute;
+  inset: 0;
+  width: 30%;
+  background: linear-gradient(90deg, transparent, rgba(34, 211, 238, 0.35), transparent);
+  animation: vf-sweep 2.8s ease-in-out infinite;
+}
+
+@keyframes vf-rise {
+  from { opacity: 0; transform: translateY(6px); }
+  to { opacity: 1; transform: translateY(0); }
+}
+.vf-rise {
+  animation: vf-rise 320ms ease-out both;
+}
+
+@keyframes vf-dash {
+  to { stroke-dashoffset: -220; }
+}
+.vf-flow {
+  stroke-dasharray: 6 14;
+  animation: vf-dash 7s linear infinite;
+}
